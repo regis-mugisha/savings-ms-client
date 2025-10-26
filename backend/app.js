@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import connectDB from "./src/config/db.config.js";
 import authRoutes from "./src/routes/auth.route.js";
+import adminRoutes from "./src/routes/admin.route.js";
 import mongoSanitize from 'express-mongo-sanitize';
 
 const app = express();
@@ -11,6 +12,14 @@ await connectDB();
 
 app.use(mongoSanitize());
 app.use(express.json());
+
+// Routes
+app.get("/api/v1", (req,res) => {
+  res.send("Savings Management System API:v1")
+})
+app.get("/api/v1/health", (req,res) => {
+  res.status(200).send("OK")
+} )
 app.use("/api/v1/auth", authRoutes);
 
 
