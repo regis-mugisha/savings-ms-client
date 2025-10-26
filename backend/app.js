@@ -13,7 +13,7 @@ app.use(mongoSanitize());
 app.use(express.json());
 
 // Routes
-app.get("/api/v1", (req,res) => {
+app.get("/", (req,res) => {
   res.send("Savings Management System API:v1")
 })
 app.get("/api/v1/health", (req,res) => {
