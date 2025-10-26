@@ -7,7 +7,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 const app = express();
 const PORT = process.env.PORT || 6000;
 
-connectDB();
+await connectDB();
 
 app.use(mongoSanitize());
 app.use(express.json());
