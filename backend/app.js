@@ -16,7 +16,10 @@ await seedAdmin();
 
 app.use(
   cors({
-    origin: ["https://savings-ms-admin-panel.vercel.app"],
+    origin: [
+      "http://localhost:3000",
+      "https://savings-ms-admin-panel.vercel.app",
+    ],
     credentials: "true",
   })
 );
