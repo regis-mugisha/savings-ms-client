@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "Savings App",
+    "slug": "savings-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/piggy-bank.png",
+    "scheme": "./",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.creditjambo.savings",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/piggy-bank.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.creditjambo.savings",
+      "googleServicesFile": "./google-services.json"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/piggy-bank.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-notifications"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "f7a04f0d-39c9-48c4-aeb9-f65703f0aeb2"
+      }
+    }
+  }
+}
