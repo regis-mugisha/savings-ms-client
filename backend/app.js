@@ -3,12 +3,15 @@ import "dotenv/config";
 import connectDB from "./src/config/db.config.js";
 import authRoutes from "./src/routes/auth.route.js";
 import savingsRoutes from "./src/routes/savings.route.js";
+import adminRoutes from "./src/routes/admin.route.js";
 import mongoSanitize from 'express-mongo-sanitize';
+import { seedAdmin } from "./src/utils/seed-admin.js";
 
 const app = express();
 const PORT = process.env.PORT || 6000;
 
 await connectDB();
+await seedAdmin();
 
 app.use(mongoSanitize());
 app.use(express.json());
@@ -22,6 +25,7 @@ app.get("/api/v1/health", (req,res) => {
 } )
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/savings", savingsRoutes);
+app.use("/api/v1/admin", adminRoutes);
 
 
 app.listen(PORT, () => {
