@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     deviceId: { type: String, required: true },
     deviceVerified: { type: Boolean, default: false },
     balance: { type: Number, default: 0 },
+    pushToken: { type: String, default: null },
 }, {timestamps: true});
 
 export const User = mongoose.model("User", userSchema);

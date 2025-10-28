@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import { Transaction } from "../models/transaction.model.js";
 import { toUserDto } from "../dtos/user.dto.js";
+import { sendPushNotification } from "../utils/push-notifications.js";
 
 export const getBalance = async (req, res) => {
     try {
@@ -54,6 +55,20 @@ export const deposit = async (req, res) => {
             description: `Deposit of $${amount}`
         });
 
+        // Send push notification for successful deposit
+        if (user.pushToken) {
+            try {
+                await sendPushNotification(
+                    user.pushToken,
+                    'Deposit Successful',
+                    `You have successfully deposited $${amount.toFixed(2)}. Your new balance is $${newBalance.toFixed(2)}.`,
+                    { type: 'deposit', amount, balance: newBalance }
+                );
+            } catch (error) {
+                console.log(`Failed to send deposit notification: ${error.message}`);
+            }
+        }
+
         res.status(200).json({ 
             message: "Deposit successful",
             balance: newBalance,
@@ -102,6 +117,20 @@ export const withdraw = async (req, res) => {
             balanceAfter: newBalance,
             description: `Withdrawal of $${amount}`
         });
+
+        // Send push notification for successful withdrawal
+        if (user.pushToken) {
+            try {
+                await sendPushNotification(
+                    user.pushToken,
+                    'Withdrawal Successful',
+                    `You have successfully withdrawn $${amount.toFixed(2)}. Your new balance is $${newBalance.toFixed(2)}.`,
+                    { type: 'withdraw', amount, balance: newBalance }
+                );
+            } catch (error) {
+                console.log(`Failed to send withdrawal notification: ${error.message}`);
+            }
+        }
 
         res.status(200).json({ 
             message: "Withdrawal successful",

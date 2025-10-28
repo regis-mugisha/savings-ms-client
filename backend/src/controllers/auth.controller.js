@@ -2,6 +2,7 @@ import { toUserDto } from "../dtos/user.dto.js";
 import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt-utils.js";
+import { sendPushNotification } from "../utils/push-notifications.js";
 import "dotenv/config";
 
 export const registerUser = async (req, res) => {
@@ -56,6 +57,20 @@ export const loginUser = async (req, res) => {
         // Get user data (without password)
         const userDto = toUserDto(user);
 
+        // Send push notification for successful login if push token exists
+        if (user.pushToken) {
+            try {
+                await sendPushNotification(
+                    user.pushToken,
+                    'Login Successful',
+                    `Welcome back, ${user.fullName}! You have successfully logged in.`,
+                    { type: 'login' }
+                );
+            } catch (error) {
+                console.log(`Failed to send login notification: ${error.message}`);
+            }
+        }
+
         // Return tokens and user data
         res.status(200).json({ 
             message: "Login successful",
@@ -104,5 +119,32 @@ export const refreshUserToken = async (req, res) => {
     } catch (error) {
         res.status(401).json({ message: error.message });
         console.log(`Error refreshing token: ${error.message}`);
+    }
+}
+
+export const updatePushToken = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const { pushToken } = req.body;
+
+        if (!pushToken) {
+            return res.status(400).json({ message: "Push token is required" });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        user.pushToken = pushToken;
+        await user.save();
+
+        res.status(200).json({ 
+            message: "Push token updated successfully"
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+        console.log(`Error updating push token: ${error.message}`);
     }
 }
