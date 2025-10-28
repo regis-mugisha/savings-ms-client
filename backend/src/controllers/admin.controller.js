@@ -3,6 +3,7 @@ import { Admin } from "../models/admin.model.js";
 import { User } from "../models/user.model.js";
 import { Transaction } from "../models/transaction.model.js";
 import { generateAccessToken } from "../utils/jwt-utils.js";
+import { sendPushNotification } from "../utils/push-notifications.js";
 
 export const adminLogin = async (req, res) => {
     try {
@@ -63,6 +64,20 @@ export const verifyUserDevice = async (req, res) => {
         }
         user.deviceVerified = true;
         await user.save();
+        // Send push notification if token exists
+        if (user.pushToken) {
+            try {
+                await sendPushNotification(
+                    user.pushToken,
+                    'Device Verified',
+                    'Your device has been verified. You can now log in and transact.',
+                    { type: 'device_verified' }
+                );
+            } catch (e) {
+                // Log and continue; do not fail the verification response due to push errors
+                console.log(`Failed to send device verification notification: ${e.message}`);
+            }
+        }
         return res.status(200).json({ message: "User device verified", user: { _id: user._id, deviceVerified: user.deviceVerified } });
     } catch (error) {
         return res.status(500).json({ message: error.message });
