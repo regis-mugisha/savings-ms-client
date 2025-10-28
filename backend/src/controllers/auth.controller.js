@@ -8,7 +8,7 @@ import "dotenv/config";
 export const registerUser = async (req, res) => {
     try {
 
-        const { fullName, email, password, deviceId } = req.body;
+        const { fullName, email, password, deviceId, pushToken } = req.body;
         const user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({ message: "User already exists" });
@@ -16,7 +16,7 @@ export const registerUser = async (req, res) => {
 
         // Decided to use bcrypt to hash the password instead of SHA512 which is vulnerable to rapid brute-force attacks due to its fast hashing speed.
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await User.create({ fullName, email, password: hashedPassword, deviceId });
+        const newUser = await User.create({ fullName, email, password: hashedPassword, deviceId, pushToken });
 
         const userDto = toUserDto(newUser);
         res.status(201).json({ message: "User created successfully", user: userDto });
