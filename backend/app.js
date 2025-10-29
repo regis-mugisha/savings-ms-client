@@ -12,6 +12,7 @@ import { swaggerSpec } from "./src/config/swagger.config.js";
 import { client } from "./src/config/redis-client.config.js";
 import rateLimit from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
+import helmet from "helmet";
 
 const app = express();
 const PORT = process.env.PORT || 6000;
@@ -30,6 +31,7 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
+app.use(helmet());
 
 app.use(
   cors({
