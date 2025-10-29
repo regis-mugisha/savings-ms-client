@@ -7,12 +7,27 @@ import adminRoutes from "./src/routes/admin.route.js";
 import mongoSanitize from "express-mongo-sanitize";
 import { seedAdmin } from "./src/utils/seed-admin.js";
 import cors from "cors";
+import { client } from "./src/config/redis-client.config.js";
+import rateLimit from "express-rate-limit";
+import RedisStore from "rate-limit-redis";
 
 const app = express();
 const PORT = process.env.PORT || 6000;
 
 await connectDB();
 await seedAdmin();
+
+const redisClient = await client.connect();
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  store: new RedisStore({
+    sendCommand: (...args) => redisClient.sendCommand(args),
+  }),
+});
+
+app.use(limiter);
 
 app.use(
   cors({
