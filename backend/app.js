@@ -7,6 +7,8 @@ import adminRoutes from "./src/routes/admin.route.js";
 import mongoSanitize from "express-mongo-sanitize";
 import { seedAdmin } from "./src/utils/seed-admin.js";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./src/config/swagger.config.js";
 import { client } from "./src/config/redis-client.config.js";
 import rateLimit from "express-rate-limit";
 import RedisStore from "rate-limit-redis";
@@ -49,6 +51,7 @@ app.get("/", (req, res) => {
 app.get("/api/v1/health", (req, res) => {
   res.status(200).send("OK");
 });
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/savings", savingsRoutes);
 app.use("/api/v1/admin", adminRoutes);
