@@ -37,10 +37,10 @@ function AppContent() {
   useEffect(() => {
     const backgroundColor = colorScheme === 'dark' ? '#000000' : '#ffffff';
     SystemUI.setBackgroundColorAsync(backgroundColor);
-  }, [colorScheme])
+  }, [colorScheme]);
   useEffect(() => {
     registerForPushNotificationsAsync()
-      .then(token => {
+      .then((token) => {
         if (token) {
           setPushToken(token);
         }
@@ -49,11 +49,11 @@ function AppContent() {
         console.error('Failed to register push token:', error);
       });
 
-    const notificationListener = Notifications.addNotificationReceivedListener(notification => {
+    const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
       setNotification(notification);
     });
 
-    const responseListener = Notifications.addNotificationResponseReceivedListener(response => {
+    const responseListener = Notifications.addNotificationResponseReceivedListener((response) => {
       console.log(response);
     });
 
@@ -65,11 +65,13 @@ function AppContent() {
 
   return (
     <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
-      <StatusBar 
-        style={colorScheme === 'dark' ? 'light' : 'dark'}
-      />
-      <SafeAreaView style={{ flex: 1 }} >
-        <Stack screenOptions={{headerShown: false}}/>
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      <SafeAreaView style={{ flex: 1 }}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        />
       </SafeAreaView>
       <PortalHost />
     </ThemeProvider>

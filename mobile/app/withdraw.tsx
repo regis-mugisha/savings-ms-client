@@ -14,7 +14,11 @@ import { Icon } from '@/components/ui/icon';
 export default function WithdrawScreen() {
   const [amount, setAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState<{ title: string; message: string; variant?: 'default' | 'destructive' } | null>(null);
+  const [alert, setAlert] = useState<{
+    title: string;
+    message: string;
+    variant?: 'default' | 'destructive';
+  } | null>(null);
   const { user, refreshBalance } = useAuth();
 
   const handleWithdraw = async () => {
@@ -42,17 +46,17 @@ export default function WithdrawScreen() {
     try {
       await savingsAPI.withdraw(numAmount);
       await refreshBalance();
-      setAlert({ 
-        title: 'Success', 
+      setAlert({
+        title: 'Success',
         message: `Successfully withdrew $${numAmount.toFixed(2)}`,
-        variant: 'default'
+        variant: 'default',
       });
       setAmount('');
     } catch (error: any) {
-      setAlert({ 
-        title: 'Error', 
+      setAlert({
+        title: 'Error',
         message: error.response?.data?.message || 'Withdrawal failed',
-        variant: 'destructive'
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -69,16 +73,14 @@ export default function WithdrawScreen() {
     <>
       <Stack.Screen options={{ title: 'Withdraw', headerShown: true }} />
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
-      >
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        className="flex-1">
         <ScrollView
           contentContainerClassName="flex-grow justify-center p-6"
-          keyboardShouldPersistTaps="handled"
-        >
+          keyboardShouldPersistTaps="handled">
           <View className="gap-6">
             {/* Current Balance */}
-            <View className="gap-2 p-4 rounded-lg border border-border bg-muted/30">
+            <View className="gap-2 rounded-lg border border-border bg-muted/30 p-4">
               <Text className="text-sm text-muted-foreground">Available Balance</Text>
               <Text variant="h1" className="text-3xl font-bold">
                 ${user?.balance.toFixed(2) || '0.00'}
@@ -88,17 +90,13 @@ export default function WithdrawScreen() {
             {/* Alert */}
             {alert && (
               <View className="relative">
-                <Alert 
-                  variant={alert.variant} 
-                  icon={alert.variant === 'destructive' ? AlertCircle : CheckCircle2}
-                >
+                <Alert
+                  variant={alert.variant}
+                  icon={alert.variant === 'destructive' ? AlertCircle : CheckCircle2}>
                   <AlertTitle>{alert.title}</AlertTitle>
                   <AlertDescription>{alert.message}</AlertDescription>
                 </Alert>
-                <Pressable 
-                  onPress={() => setAlert(null)}
-                  className="absolute right-2 top-2 p-1"
-                >
+                <Pressable onPress={() => setAlert(null)} className="absolute right-2 top-2 p-1">
                   <Icon as={X} className="text-muted-foreground" size={18} />
                 </Pressable>
               </View>
@@ -120,16 +118,12 @@ export default function WithdrawScreen() {
             </View>
 
             {/* Withdraw Button */}
-            <Button
-              onPress={handleWithdraw}
-              disabled={isLoading}
-              size="lg"
-            >
+            <Button onPress={handleWithdraw} disabled={isLoading} size="lg">
               <Text>Withdraw</Text>
             </Button>
 
             {/* Info */}
-            <Text className="text-sm text-center text-muted-foreground">
+            <Text className="text-center text-sm text-muted-foreground">
               Funds will be deducted from your account immediately
             </Text>
           </View>
@@ -138,4 +132,3 @@ export default function WithdrawScreen() {
     </>
   );
 }
-

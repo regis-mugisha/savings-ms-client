@@ -14,7 +14,11 @@ import { Icon } from '@/components/ui/icon';
 export default function DepositScreen() {
   const [amount, setAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState<{ title: string; message: string; variant?: 'default' | 'destructive' } | null>(null);
+  const [alert, setAlert] = useState<{
+    title: string;
+    message: string;
+    variant?: 'default' | 'destructive';
+  } | null>(null);
   const { user, refreshBalance } = useAuth();
 
   const handleDeposit = async () => {
@@ -37,17 +41,17 @@ export default function DepositScreen() {
     try {
       await savingsAPI.deposit(numAmount);
       await refreshBalance();
-      setAlert({ 
-        title: 'Success', 
+      setAlert({
+        title: 'Success',
         message: `Successfully deposited $${numAmount.toFixed(2)}`,
-        variant: 'default'
+        variant: 'default',
       });
       setAmount('');
     } catch (error: any) {
-      setAlert({ 
-        title: 'Error', 
+      setAlert({
+        title: 'Error',
         message: error.response?.data?.message || 'Deposit failed',
-        variant: 'destructive'
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -64,16 +68,14 @@ export default function DepositScreen() {
     <>
       <Stack.Screen options={{ title: 'Deposit', headerShown: true }} />
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
-      >
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        className="flex-1">
         <ScrollView
           contentContainerClassName="flex-grow justify-center p-6"
-          keyboardShouldPersistTaps="handled"
-        >
+          keyboardShouldPersistTaps="handled">
           <View className="gap-6">
             {/* Current Balance */}
-            <View className="gap-2 p-4 rounded-lg border border-border bg-muted/30">
+            <View className="gap-2 rounded-lg border border-border bg-muted/30 p-4">
               <Text className="text-sm text-muted-foreground">Current Balance</Text>
               <Text variant="h1" className="text-3xl font-bold">
                 ${user?.balance.toFixed(2) || '0.00'}
@@ -83,17 +85,13 @@ export default function DepositScreen() {
             {/* Alert */}
             {alert && (
               <View className="relative">
-                <Alert 
-                  variant={alert.variant} 
-                  icon={alert.variant === 'destructive' ? AlertCircle : CheckCircle2}
-                >
+                <Alert
+                  variant={alert.variant}
+                  icon={alert.variant === 'destructive' ? AlertCircle : CheckCircle2}>
                   <AlertTitle>{alert.title}</AlertTitle>
                   <AlertDescription>{alert.message}</AlertDescription>
                 </Alert>
-                <Pressable 
-                  onPress={() => setAlert(null)}
-                  className="absolute right-2 top-2 p-1"
-                >
+                <Pressable onPress={() => setAlert(null)} className="absolute right-2 top-2 p-1">
                   <Icon as={X} className="text-muted-foreground" size={18} />
                 </Pressable>
               </View>
@@ -115,16 +113,12 @@ export default function DepositScreen() {
             </View>
 
             {/* Deposit Button */}
-            <Button
-              onPress={handleDeposit}
-              disabled={isLoading}
-              size="lg"
-            >
+            <Button onPress={handleDeposit} disabled={isLoading} size="lg">
               <Text>Deposit</Text>
             </Button>
 
             {/* Info */}
-            <Text className="text-sm text-center text-muted-foreground">
+            <Text className="text-center text-sm text-muted-foreground">
               Funds will be added to your account immediately
             </Text>
           </View>
@@ -133,4 +127,3 @@ export default function DepositScreen() {
     </>
   );
 }
-

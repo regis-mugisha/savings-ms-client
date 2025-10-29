@@ -18,7 +18,11 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { register, deviceId, setPushToken } = useAuth();
-  const [alert, setAlert] = useState<{ title: string; message: string; variant?: 'default' | 'destructive' } | null>(null);
+  const [alert, setAlert] = useState<{
+    title: string;
+    message: string;
+    variant?: 'default' | 'destructive';
+  } | null>(null);
   const router = useRouter();
 
   const handleRegister = async () => {
@@ -29,7 +33,11 @@ export default function RegisterScreen() {
     }
 
     if (password.length < 6) {
-      setAlert({ title: 'Error', message: 'Password must be at least 6 characters', variant: 'destructive' });
+      setAlert({
+        title: 'Error',
+        message: 'Password must be at least 6 characters',
+        variant: 'destructive',
+      });
       return;
     }
 
@@ -39,7 +47,11 @@ export default function RegisterScreen() {
     }
 
     if (!deviceId) {
-      setAlert({ title: 'Error', message: 'Device ID not available. Please try again.', variant: 'destructive' });
+      setAlert({
+        title: 'Error',
+        message: 'Device ID not available. Please try again.',
+        variant: 'destructive',
+      });
       return;
     }
 
@@ -96,16 +108,14 @@ export default function RegisterScreen() {
     <>
       <Stack.Screen options={{ title: 'Register', headerShown: true }} />
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
-      >
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        className="flex-1">
         <ScrollView
           contentContainerClassName="flex-grow justify-center p-6"
-          keyboardShouldPersistTaps="handled"
-        >
+          keyboardShouldPersistTaps="handled">
           <View className="gap-6">
             {/* Header */}
-            <View className="items-center gap-2 mb-4">
+            <View className="mb-4 items-center gap-2">
               <Text variant="h1" className="text-4xl font-bold">
                 Create Account
               </Text>
@@ -119,8 +129,7 @@ export default function RegisterScreen() {
               <View className="relative">
                 <Alert
                   variant={alert.variant}
-                  icon={alert.variant === 'destructive' ? AlertCircle : CheckCircle2}
-                >
+                  icon={alert.variant === 'destructive' ? AlertCircle : CheckCircle2}>
                   <AlertTitle>{alert.title}</AlertTitle>
                   <AlertDescription>{alert.message}</AlertDescription>
                 </Alert>
@@ -192,22 +201,15 @@ export default function RegisterScreen() {
             </View>
 
             {/* Register Button */}
-            <Button
-              onPress={handleRegister}
-              disabled={isLoading}
-              className="mt-4"
-              size="lg"
-            >
+            <Button onPress={handleRegister} disabled={isLoading} className="mt-4" size="lg">
               <Text>Register</Text>
             </Button>
 
             {/* Login Link */}
             <View className="flex-row justify-center gap-1">
-              <Text className="text-muted-foreground">
-                Already have an account?
-              </Text>
+              <Text className="text-muted-foreground">Already have an account?</Text>
               <Link href="/login" asChild>
-                <Button variant="link" className="p-0 h-auto">
+                <Button variant="link" className="h-auto p-0">
                   <Text>Login</Text>
                 </Button>
               </Link>
@@ -218,4 +220,3 @@ export default function RegisterScreen() {
     </>
   );
 }
-

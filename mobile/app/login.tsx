@@ -14,7 +14,11 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState<{ title: string; message: string; variant?: 'default' | 'destructive' } | null>(null);
+  const [alert, setAlert] = useState<{
+    title: string;
+    message: string;
+    variant?: 'default' | 'destructive';
+  } | null>(null);
   const { login } = useAuth();
   const router = useRouter();
 
@@ -55,16 +59,14 @@ export default function LoginScreen() {
     <>
       <Stack.Screen options={{ title: 'Login', headerShown: true }} />
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
-      >
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        className="flex-1">
         <ScrollView
           contentContainerClassName="flex-grow justify-center p-6"
-          keyboardShouldPersistTaps="handled"
-        >
+          keyboardShouldPersistTaps="handled">
           <View className="gap-6">
             {/* Header */}
-            <View className="items-center gap-2 mb-4">
+            <View className="mb-4 items-center gap-2">
               <Text variant="h1" className="text-4xl font-bold">
                 Welcome Back
               </Text>
@@ -80,10 +82,7 @@ export default function LoginScreen() {
                   <AlertTitle>{alert.title}</AlertTitle>
                   <AlertDescription>{alert.message}</AlertDescription>
                 </Alert>
-                <Pressable 
-                  onPress={() => setAlert(null)}
-                  className="absolute right-2 top-2 p-1"
-                >
+                <Pressable onPress={() => setAlert(null)} className="absolute right-2 top-2 p-1">
                   <Icon as={X} className="text-muted-foreground" size={18} />
                 </Pressable>
               </View>
@@ -123,22 +122,15 @@ export default function LoginScreen() {
             </View>
 
             {/* Login Button */}
-            <Button
-              onPress={handleLogin}
-              disabled={isLoading}
-              className="mt-4"
-              size="lg"
-            >
+            <Button onPress={handleLogin} disabled={isLoading} className="mt-4" size="lg">
               <Text>Login</Text>
             </Button>
 
             {/* Register Link */}
             <View className="flex-row justify-center gap-1">
-              <Text className="text-muted-foreground">
-                Don't have an account?
-              </Text>
+              <Text className="text-muted-foreground">Don't have an account?</Text>
               <Link href="/register" asChild>
-                <Button variant="link" className="p-0 h-auto">
+                <Button variant="link" className="h-auto p-0">
                   <Text>Register</Text>
                 </Button>
               </Link>
@@ -149,4 +141,3 @@ export default function LoginScreen() {
     </>
   );
 }
-
