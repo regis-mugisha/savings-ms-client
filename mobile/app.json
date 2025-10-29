@@ -4,7 +4,7 @@
     "slug": "savings-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/piggy-bank.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "./",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,9 +13,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.creditjambo.savings",
@@ -26,7 +24,7 @@
     "android": {
       "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/piggy-bank.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.creditjambo.savings",
@@ -37,10 +35,7 @@
       "output": "static",
       "favicon": "./assets/images/piggy-bank.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-notifications"
-    ],
+    "plugins": ["expo-router", "expo-notifications"],
     "experiments": {
       "typedRoutes": true
     },
