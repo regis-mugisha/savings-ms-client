@@ -1,73 +1,52 @@
-# Minimal Template
+# Mobile App — Credit Jambo Savings
 
-This is a [React Native](https://reactnative.dev/) project built with [Expo](https://expo.dev/) and [React Native Reusables](https://reactnativereusables.com).
+React Native app (Expo) for users to register, login (after device verification), view balance, deposit/withdraw, and see history.
 
-It was initialized using the following command:
+## Prerequisites
 
-```bash
-npx @react-native-reusables/cli@latest init -t ./
-```
+- Node.js 18+
+- Expo CLI (optional)
+- Backend API running (see project root or `backend/`)
 
-## Getting Started
-
-To run the development server:
+## Setup
 
 ```bash
-    npm run dev
-    # or
-    yarn dev
-    # or
-    pnpm dev
-    # or
-    bun dev
+cd mobile
+npm install
+npm run dev
 ```
 
-This will start the Expo Dev Server. Open the app in:
+This starts the Expo Dev Server. Use Expo Go (QR), iOS simulator (i), or Android emulator (a).
 
-- **iOS**: press `i` to launch in the iOS simulator _(Mac only)_
-- **Android**: press `a` to launch in the Android emulator
-- **Web**: press `w` to run in a browser
+## Configure API URL
 
-You can also scan the QR code using the [Expo Go](https://expo.dev/go) app on your device. This project fully supports running in Expo Go for quick testing on physical devices.
+Update the backend base URL in:
 
-## Adding components
+- `mobile/lib/api.ts` → `API_BASE_URL`
 
-You can add more reusable components using the CLI:
+Default points to a hosted URL. Set it to your local API for development, e.g.:
+
+```ts
+const API_BASE_URL = 'http://localhost:6000/api/v1';
+```
+
+On real devices, use your machine IP instead of `localhost`.
+
+## Features
+
+- Email/password auth with access/refresh tokens
+- Device verification gate before login
+- Deposit, withdraw, balance, and transaction history
+- Auto-refresh access token when expired
+
+## Scripts
 
 ```bash
-npx react-native-reusables/cli@latest add [...components]
+npm run dev     # Start Expo Dev Server
 ```
 
-> e.g. `npx react-native-reusables/cli@latest add input textarea`
+## Tips
 
-If you don't specify any component names, you'll be prompted to select which components to add interactively. Use the `--all` flag to install all available components at once.
-
-## Project Features
-
-- ⚛️ Built with [Expo Router](https://expo.dev/router)
-- 🎨 Styled with [Tailwind CSS](https://tailwindcss.com/) via [Nativewind](https://www.nativewind.dev/)
-- 📦 UI powered by [React Native Reusables](https://github.com/founded-labs/react-native-reusables)
-- 🚀 New Architecture enabled
-- 🔥 Edge to Edge enabled
-- 📱 Runs on iOS, Android, and Web
-
-## Learn More
-
-To dive deeper into the technologies used:
-
-- [React Native Docs](https://reactnative.dev/docs/getting-started)
-- [Expo Docs](https://docs.expo.dev/)
-- [Nativewind Docs](https://www.nativewind.dev/)
-- [React Native Reusables](https://reactnativereusables.com)
-
-## Deploy with EAS
-
-The easiest way to deploy your app is with [Expo Application Services (EAS)](https://expo.dev/eas).
-
-- [EAS Build](https://docs.expo.dev/build/introduction/)
-- [EAS Updates](https://docs.expo.dev/eas-update/introduction/)
-- [EAS Submit](https://docs.expo.dev/submit/introduction/)
-
----
-
-If you enjoy using React Native Reusables, please consider giving it a ⭐ on [GitHub](https://github.com/founded-labs/react-native-reusables). Your support means a lot!
+- If refresh fails, the app clears tokens and returns to login
+- Ensure your backend CORS allows the mobile origin
+- Keep your access and refresh tokens secure (AsyncStorage)
