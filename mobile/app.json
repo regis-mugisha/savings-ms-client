@@ -4,7 +4,7 @@
     "slug": "savings-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/piggy-bank.png",
     "scheme": "./",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
