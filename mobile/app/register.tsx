@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { View, KeyboardAvoidingView, Platform, ScrollView, Pressable } from 'react-native';
-import { useAuth } from '@/context/AuthContext';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Text } from '@/components/ui/text';
-import { Stack, Link, useRouter } from 'expo-router';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle, CheckCircle2, X } from 'lucide-react-native';
-import { Icon } from '@/components/ui/icon';
+import { useAuth } from '@/context/AuthContext';
 import { registerForPushNotificationsAsync } from '@/lib/registerForPushNotificationsAsync';
+import { Link, Stack, useRouter } from 'expo-router';
+import { AlertCircle, CheckCircle2, X } from 'lucide-react-native';
+import { useState } from 'react';
+import { Pressable, ScrollView, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function RegisterScreen() {
   const [fullName, setFullName] = useState('');
@@ -107,9 +108,11 @@ export default function RegisterScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Register', headerShown: true }} />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        className="flex-1">
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        keyboardShouldPersistTaps="handled"
+        extraScrollHeight={60}
+        enableOnAndroid={true}>
         <ScrollView
           contentContainerClassName="flex-grow justify-center p-6"
           keyboardShouldPersistTaps="handled">
@@ -216,7 +219,7 @@ export default function RegisterScreen() {
             </View>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </>
   );
 }

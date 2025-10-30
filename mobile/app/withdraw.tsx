@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { View, KeyboardAvoidingView, Platform, ScrollView, Pressable } from 'react-native';
-import { useAuth } from '@/context/AuthContext';
-import { savingsAPI } from '@/lib/api';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Text } from '@/components/ui/text';
+import { useAuth } from '@/context/AuthContext';
+import { savingsAPI } from '@/lib/api';
 import { Stack } from 'expo-router';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, CheckCircle2, X } from 'lucide-react-native';
-import { Icon } from '@/components/ui/icon';
+import { useState } from 'react';
+import { Pressable, ScrollView, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function WithdrawScreen() {
   const [amount, setAmount] = useState('');
@@ -72,9 +73,10 @@ export default function WithdrawScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Withdraw', headerShown: true }} />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        className="flex-1">
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        keyboardShouldPersistTaps="handled"
+        enableOnAndroid={true}>
         <ScrollView
           contentContainerClassName="flex-grow justify-center p-6"
           keyboardShouldPersistTaps="handled">
@@ -128,7 +130,7 @@ export default function WithdrawScreen() {
             </Text>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </>
   );
 }

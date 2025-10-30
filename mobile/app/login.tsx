@@ -1,14 +1,15 @@
-import { useState } from 'react';
-import { View, KeyboardAvoidingView, Platform, ScrollView, Pressable } from 'react-native';
-import { useAuth } from '@/context/AuthContext';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Text } from '@/components/ui/text';
-import { Stack, Link, useRouter } from 'expo-router';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useAuth } from '@/context/AuthContext';
+import { Link, Stack, useRouter } from 'expo-router';
 import { AlertCircle, X } from 'lucide-react-native';
-import { Icon } from '@/components/ui/icon';
+import { useState } from 'react';
+import { Pressable, ScrollView, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -58,9 +59,10 @@ export default function LoginScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Login', headerShown: true }} />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        className="flex-1">
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        keyboardShouldPersistTaps="handled"
+        enableOnAndroid={true}>
         <ScrollView
           contentContainerClassName="flex-grow justify-center p-6"
           keyboardShouldPersistTaps="handled">
@@ -137,7 +139,7 @@ export default function LoginScreen() {
             </View>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </>
   );
 }
