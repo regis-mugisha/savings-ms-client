@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Link, Stack, useRouter } from 'expo-router';
 import { AlertCircle, X } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function LoginScreen() {
@@ -63,82 +63,78 @@ export default function LoginScreen() {
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
         keyboardShouldPersistTaps="handled"
         enableOnAndroid={true}>
-        <ScrollView
-          contentContainerClassName="flex-grow justify-center p-6"
-          keyboardShouldPersistTaps="handled">
-          <View className="gap-6">
-            {/* Header */}
-            <View className="mb-4 items-center gap-2">
-              <Text variant="h1" className="text-4xl font-bold">
-                Welcome Back
-              </Text>
-              <Text className="text-center text-muted-foreground">
-                Sign in to your account to continue
-              </Text>
+        <View className="gap-6 p-6">
+          {/* Header */}
+          <View className="mb-4 items-center gap-2">
+            <Text variant="h1" className="text-4xl font-bold">
+              Welcome Back
+            </Text>
+            <Text className="text-center text-muted-foreground">
+              Sign in to your account to continue
+            </Text>
+          </View>
+
+          {/* Alert */}
+          {alert && (
+            <View className="relative">
+              <Alert variant={alert.variant} icon={AlertCircle}>
+                <AlertTitle>{alert.title}</AlertTitle>
+                <AlertDescription>{alert.message}</AlertDescription>
+              </Alert>
+              <Pressable onPress={() => setAlert(null)} className="absolute right-2 top-2 p-1">
+                <Icon as={X} className="text-muted-foreground" size={18} />
+              </Pressable>
+            </View>
+          )}
+
+          {/* Form */}
+          <View className="gap-4">
+            {/* Email Field */}
+            <View className="gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                placeholder="Enter your email"
+                value={email}
+                onChangeText={handleEmailChange}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
+                editable={!isLoading}
+              />
             </View>
 
-            {/* Alert */}
-            {alert && (
-              <View className="relative">
-                <Alert variant={alert.variant} icon={AlertCircle}>
-                  <AlertTitle>{alert.title}</AlertTitle>
-                  <AlertDescription>{alert.message}</AlertDescription>
-                </Alert>
-                <Pressable onPress={() => setAlert(null)} className="absolute right-2 top-2 p-1">
-                  <Icon as={X} className="text-muted-foreground" size={18} />
-                </Pressable>
-              </View>
-            )}
-
-            {/* Form */}
-            <View className="gap-4">
-              {/* Email Field */}
-              <View className="gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChangeText={handleEmailChange}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  editable={!isLoading}
-                />
-              </View>
-
-              {/* Password Field */}
-              <View className="gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChangeText={handlePasswordChange}
-                  secureTextEntry
-                  autoCapitalize="none"
-                  autoComplete="password"
-                  editable={!isLoading}
-                />
-              </View>
-            </View>
-
-            {/* Login Button */}
-            <Button onPress={handleLogin} disabled={isLoading} className="mt-4" size="lg">
-              <Text>Login</Text>
-            </Button>
-
-            {/* Register Link */}
-            <View className="flex-row justify-center gap-1">
-              <Text className="text-muted-foreground">Don't have an account?</Text>
-              <Link href="/register" asChild>
-                <Button variant="link" className="h-auto p-0">
-                  <Text>Register</Text>
-                </Button>
-              </Link>
+            {/* Password Field */}
+            <View className="gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                placeholder="Enter your password"
+                value={password}
+                onChangeText={handlePasswordChange}
+                secureTextEntry
+                autoCapitalize="none"
+                autoComplete="password"
+                editable={!isLoading}
+              />
             </View>
           </View>
-        </ScrollView>
+
+          {/* Login Button */}
+          <Button onPress={handleLogin} disabled={isLoading} className="mt-4" size="lg">
+            <Text>Login</Text>
+          </Button>
+
+          {/* Register Link */}
+          <View className="flex-row justify-center gap-1">
+            <Text className="text-muted-foreground">Don't have an account?</Text>
+            <Link href="/register" asChild>
+              <Button variant="link" className="h-auto p-0">
+                <Text>Register</Text>
+              </Button>
+            </Link>
+          </View>
+        </View>
       </KeyboardAwareScrollView>
     </>
   );

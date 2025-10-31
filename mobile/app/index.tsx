@@ -1,9 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Text } from '@/components/ui/text';
-import { Link, Stack } from 'expo-router';
-import { View, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '@/context/AuthContext';
+import { Link, Stack } from 'expo-router';
+import { ActivityIndicator, View } from 'react-native';
 
 export default function Screen() {
   const { isAuthenticated, isLoading, user, logout } = useAuth();
@@ -11,9 +10,9 @@ export default function Screen() {
   // Show loading indicator while checking auth state
   if (isLoading) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-background">
+      <View className="flex-1 items-center justify-center bg-background">
         <ActivityIndicator size="large" />
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -32,7 +31,7 @@ export default function Screen() {
             headerShown: true,
           }}
         />
-        <SafeAreaView className="flex-1 bg-background" edges={['bottom']}>
+        <View className="flex-1 bg-background">
           <View className="flex-1 gap-6 p-4">
             {/* Header */}
             <View className="items-center gap-2">
@@ -73,7 +72,7 @@ export default function Screen() {
               </Button>
             </Link>
           </View>
-        </SafeAreaView>
+        </View>
       </>
     );
   }
@@ -87,7 +86,7 @@ export default function Screen() {
           headerShown: true,
         }}
       />
-      <SafeAreaView className="flex-1 bg-background" edges={['bottom']}>
+      <View className="flex-1 bg-background">
         <View className="flex-1 items-center justify-center gap-8 p-4">
           <View className="gap-2 p-4">
             <Text variant="h1" className="text-center">
@@ -110,7 +109,7 @@ export default function Screen() {
             </Link>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     </>
   );
 }

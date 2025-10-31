@@ -9,7 +9,7 @@ import { savingsAPI } from '@/lib/api';
 import { Stack } from 'expo-router';
 import { AlertCircle, CheckCircle2, X } from 'lucide-react-native';
 import { useState } from 'react';
-import { Pressable, ScrollView, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function DepositScreen() {
@@ -72,59 +72,55 @@ export default function DepositScreen() {
         contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
         keyboardShouldPersistTaps="handled"
         enableOnAndroid={true}>
-        <ScrollView
-          contentContainerClassName="flex-grow justify-center p-6"
-          keyboardShouldPersistTaps="handled">
-          <View className="gap-6">
-            {/* Current Balance */}
-            <View className="gap-2 rounded-lg border border-border bg-muted/30 p-4">
-              <Text className="text-sm text-muted-foreground">Current Balance</Text>
-              <Text variant="h1" className="text-3xl font-bold">
-                ${user?.balance.toFixed(2) || '0.00'}
-              </Text>
-            </View>
-
-            {/* Alert */}
-            {alert && (
-              <View className="relative">
-                <Alert
-                  variant={alert.variant}
-                  icon={alert.variant === 'destructive' ? AlertCircle : CheckCircle2}>
-                  <AlertTitle>{alert.title}</AlertTitle>
-                  <AlertDescription>{alert.message}</AlertDescription>
-                </Alert>
-                <Pressable onPress={() => setAlert(null)} className="absolute right-2 top-2 p-1">
-                  <Icon as={X} className="text-muted-foreground" size={18} />
-                </Pressable>
-              </View>
-            )}
-
-            {/* Form */}
-            <View className="gap-4">
-              <View className="gap-2">
-                <Label htmlFor="amount">Deposit Amount</Label>
-                <Input
-                  id="amount"
-                  placeholder="Enter amount"
-                  value={amount}
-                  onChangeText={handleAmountChange}
-                  keyboardType="decimal-pad"
-                  editable={!isLoading}
-                />
-              </View>
-            </View>
-
-            {/* Deposit Button */}
-            <Button onPress={handleDeposit} disabled={isLoading} size="lg">
-              <Text>Deposit</Text>
-            </Button>
-
-            {/* Info */}
-            <Text className="text-center text-sm text-muted-foreground">
-              Funds will be added to your account immediately
+        <View className="gap-6 p-6">
+          {/* Current Balance */}
+          <View className="gap-2 rounded-lg border border-border bg-muted/30 p-4">
+            <Text className="text-sm text-muted-foreground">Current Balance</Text>
+            <Text variant="h1" className="text-3xl font-bold">
+              ${user?.balance.toFixed(2) || '0.00'}
             </Text>
           </View>
-        </ScrollView>
+
+          {/* Alert */}
+          {alert && (
+            <View className="relative">
+              <Alert
+                variant={alert.variant}
+                icon={alert.variant === 'destructive' ? AlertCircle : CheckCircle2}>
+                <AlertTitle>{alert.title}</AlertTitle>
+                <AlertDescription>{alert.message}</AlertDescription>
+              </Alert>
+              <Pressable onPress={() => setAlert(null)} className="absolute right-2 top-2 p-1">
+                <Icon as={X} className="text-muted-foreground" size={18} />
+              </Pressable>
+            </View>
+          )}
+
+          {/* Form */}
+          <View className="gap-4">
+            <View className="gap-2">
+              <Label htmlFor="amount">Deposit Amount</Label>
+              <Input
+                id="amount"
+                placeholder="Enter amount"
+                value={amount}
+                onChangeText={handleAmountChange}
+                keyboardType="decimal-pad"
+                editable={!isLoading}
+              />
+            </View>
+          </View>
+
+          {/* Deposit Button */}
+          <Button onPress={handleDeposit} disabled={isLoading} size="lg">
+            <Text>Deposit</Text>
+          </Button>
+
+          {/* Info */}
+          <Text className="text-center text-sm text-muted-foreground">
+            Funds will be added to your account immediately
+          </Text>
+        </View>
       </KeyboardAwareScrollView>
     </>
   );
