@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authAPI, savingsAPI } from '@/lib/api';
+import { registerForPushNotificationsAsync } from '@/lib/registerForPushNotificationsAsync';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Application from 'expo-application';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 interface User {
   _id: string;
@@ -66,16 +67,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await authAPI.login(email, password);
+      const pushToken = await registerForPushNotificationsAsync();
+
+      const response = await authAPI.login(email, password, pushToken);
       const { accessToken, refreshToken, user: userData } = response;
-      
+
       // Store tokens and user data
       await AsyncStorage.multiSet([
         ['accessToken', accessToken],
         ['refreshToken', refreshToken],
         ['user', JSON.stringify(userData)],
       ]);
-      
+
       setUser(userData);
 
       // Send push token to backend if available
@@ -96,7 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!deviceId) {
       throw new Error('Device ID not available');
     }
-    
+
     try {
       const response = await authAPI.register(fullName, email, password, deviceId, pushToken);
       // Don't auto-login after registration
@@ -139,8 +142,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         refreshBalance,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );
@@ -153,4 +155,3 @@ export function useAuth() {
   }
   return context;
 }
-

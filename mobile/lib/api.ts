@@ -1,5 +1,5 @@
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 // Base URL for the backend API
 const API_BASE_URL = 'https://savings-ms-client-api.onrender.com/api/v1';
@@ -38,7 +38,7 @@ api.interceptors.response.use(
 
       try {
         const refreshToken = await AsyncStorage.getItem('refreshToken');
-        
+
         if (!refreshToken) {
           // No refresh token, clear storage and redirect to login
           await AsyncStorage.multiRemove(['accessToken', 'refreshToken', 'user']);
@@ -69,7 +69,13 @@ api.interceptors.response.use(
 
 // Auth API functions
 export const authAPI = {
-  register: async (fullName: string, email: string, password: string, deviceId: string, pushToken?: string) => {
+  register: async (
+    fullName: string,
+    email: string,
+    password: string,
+    deviceId: string,
+    pushToken?: string
+  ) => {
     const response = await api.post('/auth/register', {
       fullName,
       email,
@@ -80,10 +86,11 @@ export const authAPI = {
     return response.data;
   },
 
-  login: async (email: string, password: string) => {
+  login: async (email: string, password: string, pushToken?: string) => {
     const response = await api.post('/auth/login', {
       email,
       password,
+      pushToken,
     });
     return response.data;
   },
@@ -123,4 +130,3 @@ export const savingsAPI = {
 
 // Export the api instance for custom requests
 export default api;
-
