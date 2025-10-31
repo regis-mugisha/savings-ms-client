@@ -1,12 +1,12 @@
 import express from "express";
+import Joi from "joi";
 import {
-  registerUser,
   loginUser,
   refreshUserToken,
+  registerUser,
   updatePushToken,
 } from "../controllers/auth.controller.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
-import Joi from "joi";
 import validate from "../middlewares/validation.js";
 
 const router = express.Router();
@@ -30,6 +30,7 @@ const registerSchema = Joi.object({
 const loginSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
+  pushToken: Joi.string().optional(),
 });
 
 const refreshTokenSchema = Joi.object({
