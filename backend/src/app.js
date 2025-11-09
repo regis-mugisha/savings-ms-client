@@ -37,7 +37,11 @@ app.use(
   })
 );
 
-app.use(mongoSanitize());
+app.use(
+  mongoSanitize({
+    replaceWith: "_",
+  })
+);
 app.use(express.json());
 
 // Routes
