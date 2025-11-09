@@ -1,4 +1,6 @@
 import { app } from "./src/app.js";
+import connectDB from "./src/config/db.config.js";
+import { seedAdmin } from "./src/utils/seed-admin.js";
 
 const PORT = process.env.PORT || 6000;
 
