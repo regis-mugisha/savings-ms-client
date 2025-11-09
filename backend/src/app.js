@@ -6,11 +6,11 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import RedisStore from "rate-limit-redis";
 import swaggerUi from "swagger-ui-express";
-import { client } from "./src/config/redis-client.config.js";
-import { swaggerSpec } from "./src/config/swagger.config.js";
-import adminRoutes from "./src/routes/admin.route.js";
-import authRoutes from "./src/routes/auth.route.js";
-import savingsRoutes from "./src/routes/savings.route.js";
+import { client } from "./config/redis-client.config.js";
+import { swaggerSpec } from "./config/swagger.config.js";
+import adminRoutes from "./routes/admin.route.js";
+import authRoutes from "./routes/auth.route.js";
+import savingsRoutes from "./routes/savings.route.js";
 
 const app = express();
 
