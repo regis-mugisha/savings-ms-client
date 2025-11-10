@@ -1,12 +1,9 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import mongoSanitize from "express-mongo-sanitize";
-import rateLimit from "express-rate-limit";
 import helmet from "helmet";
-import RedisStore from "rate-limit-redis";
+
 import swaggerUi from "swagger-ui-express";
-import { client } from "./config/redis-client.config.js";
 import { swaggerSpec } from "./config/swagger.config.js";
 import adminRoutes from "./routes/admin.route.js";
 import authRoutes from "./routes/auth.route.js";
@@ -14,19 +11,7 @@ import savingsRoutes from "./routes/savings.route.js";
 
 const app = express();
 
-const redisClient = await client.connect();
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  store: new RedisStore({
-    sendCommand: (...args) => redisClient.sendCommand(args),
-  }),
-});
-
-app.use(limiter);
-app.use(helmet());
-
+// Enable CORS first
 app.use(
   cors({
     origin: [
@@ -37,7 +22,10 @@ app.use(
   })
 );
 
-app.use(mongoSanitize());
+// Security middleware
+app.use(helmet());
+
+// Parse JSON payloads and sanitize
 app.use(express.json());
 
 // Routes
