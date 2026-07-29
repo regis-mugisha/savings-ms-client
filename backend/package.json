@@ -26,14 +26,14 @@
     "rate-limit-redis": "^4.3.0",
     "mongoose": "^9.0.0",
     "redis": "^5.9.0",
-    "swagger-jsdoc": "^6.2.8",
+    "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1",
     "yaml": "^2.8.1"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.0.8",
     "mongodb-memory-server": "^10.3.0",
-    "nodemon": "^3.1.11",
+    "nodemon": "^3.1.14",
     "supertest": "^7.1.4",
     "vitest": "^4.0.8"
   }
